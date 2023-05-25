@@ -1,5 +1,4 @@
 from pydantic import BaseSettings
-from sqlalchemy.ext.declarative import declarative_base
 
 
 class Settings(BaseSettings):
@@ -8,11 +7,10 @@ class Settings(BaseSettings):
     """
 
     API_V1_STR: str = '/api/v1'
-    BD_URL: str = 'sqlite+aiosqlite:///digital_account_database.db'
-    DBBaseModel = declarative_base()
+    DB_URL: str = 'sqlite+aiosqlite:///database.db'
 
     class Config:
         case_sensitive = True
 
 
-settings = Settings()
+settings: Settings = Settings()

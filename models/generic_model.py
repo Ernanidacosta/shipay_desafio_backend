@@ -1,25 +1,29 @@
+from typing import Optional
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Date
 from sqlalchemy.orm import relationship
 from core.configs import settings
+from sqlmodel import Field, SQLModel
 
-class RoleModel(settings.DBBaseModel):
-    __tablename__ = "roles"
 
-    id = Column(Integer, primary_key=True, index=True)
-    description = Column(String, nullable=False)
+class RoleModel(SQLModel, table=True):
+    __tablename__: str = "roles"
 
-class ClaimModel(settings.DBBaseModel):
-    __tablename__ = "claims"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    description: str
 
-    id = Column(Integer, primary_key=True, index=True)
-    description = Column(String, nullable=False)
-    active = Column(Boolean, nullable=False, default=True)
 
-class UserModel(settings.DBBaseModel):
-    __tablename__ = "users"
+class ClaimModel(SQLModel, table=True):
+    __tablename__: str = "claims"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    id: Optional[int] = Field(default=None, primary_key=True)
+    description: str
+    active: bool
+
+class UserModel(SQLModel, table=True):
+    __tablename__: str = "users"
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
     role_id = Column(Integer, ForeignKey("roles.id"))
@@ -27,6 +31,8 @@ class UserModel(settings.DBBaseModel):
     updated_at = Column(Date)
 
     role = relationship("RoleModel", backref="users")
+
+
 
 class UserClaimModel(settings.DBBaseModel):
     __tablename__ = "user_claims"

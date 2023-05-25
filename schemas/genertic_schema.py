@@ -1,16 +1,17 @@
 from datetime import date
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel as SCBaseModel
 
 
-class Role(RoleBase):
+class Role(SCBaseModel):
     id: Optional[int]
     description: str
 
     class Config:
         orm_mode = True
 
-class Claim(ClaimBase):
+
+class Claim(SCBaseModel):
     id: Optional[int]
     description: str
     active: bool
@@ -19,7 +20,7 @@ class Claim(ClaimBase):
         orm_mode = True
 
 
-class User(UserBase):
+class User(SCBaseModel):
     id: Optional[int]
     name: str
     email: str
@@ -32,6 +33,6 @@ class User(UserBase):
         orm_mode = True
 
 
-class UserClaimBase(BaseModel):
+class UserClaimBase(SCBaseModel):
     user_id: int
     claim_id: int

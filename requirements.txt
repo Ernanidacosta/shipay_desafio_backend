@@ -6,3 +6,4 @@ pydantic==1.10.7
 SQLAlchemy==1.4.36
 starlette==0.17.1
 uvicorn==0.17.6
+sqlmodel==0.0.6
