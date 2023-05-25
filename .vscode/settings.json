@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "shipay",
+            "database": "${workspaceFolder:shipay_desafio_backend}/database.db"
+        }
+    ]
+}
