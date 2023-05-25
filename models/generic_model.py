@@ -1,11 +1,6 @@
-from datetime import date as date_type
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, Date, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
-from databases import Database
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Date
+from sqlalchemy.orm import relationship
 from core.configs import settings
-
-
 
 class RoleModel(settings.DBBaseModel):
     __tablename__ = "roles"
@@ -13,14 +8,12 @@ class RoleModel(settings.DBBaseModel):
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String, nullable=False)
 
-
 class ClaimModel(settings.DBBaseModel):
     __tablename__ = "claims"
 
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String, nullable=False)
     active = Column(Boolean, nullable=False, default=True)
-
 
 class UserModel(settings.DBBaseModel):
     __tablename__ = "users"
@@ -33,8 +26,7 @@ class UserModel(settings.DBBaseModel):
     created_at = Column(Date, nullable=False)
     updated_at = Column(Date)
 
-    role = relationship("Role", backref="users")
-
+    role = relationship("RoleModel", backref="users")
 
 class UserClaimModel(settings.DBBaseModel):
     __tablename__ = "user_claims"
@@ -42,5 +34,5 @@ class UserClaimModel(settings.DBBaseModel):
     user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
     claim_id = Column(Integer, ForeignKey("claims.id"), primary_key=True)
 
-    user = relationship("User", backref="claims")
-    claim = relationship("Claim", backref="users")
+    user = relationship("UserModel", backref="claims")
+    claim = relationship("ClaimModel", backref="users")

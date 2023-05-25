@@ -1,21 +1,22 @@
-from typing import List
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from core.deps import get_session
-from models.generic_model import User
+from models.generic_model import UserModel
+from schemas.genertic_schema import User
 
 router = APIRouter()
 
-@router.get("/users/{user_id}", response_model=)
-async def get_persons(db: AsyncSession = Depends(get_session)):
-    query = User.__table__.select().where(User.id == user_id)
-    return await database.fetch_one(query)
+@router.get("/user/{user_id}", response_model=User, status_code=status.HTTP_200_OK)
+async def get_user_by_id(user_id: int, db: AsyncSession = Depends(get_session)):
+    async with db as session:
+        query = select(UserModel).where(UserModel.id == user_id)
+        return await session.execute(query)
 
 
-@router.post("/users")
-async def post_user(user: UserModel):
-    new_user = User.__table__.insert().values(
+@router.post("/user")
+async def post_user(user: User, db: AsyncSession = Depends(get_session)):
+    new_user = UserModel(
         name=user.name,
         email=user.email,
         password=user.password,
@@ -23,5 +24,6 @@ async def post_user(user: UserModel):
         created_at=user.created_at,
         updated_at=user.updated_at
     )
-    last_record_id = await database.execute(query)
-    return {"id": last_record_id}
+    db.add(new_user)
+    await db.commit()
+    return new_user
