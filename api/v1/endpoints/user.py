@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from core.deps import get_session
-from models.generic_model import UserModel
+from models.user_claim_model import UserModel
 from schemas.genertic_schema import User
 
 router = APIRouter()
